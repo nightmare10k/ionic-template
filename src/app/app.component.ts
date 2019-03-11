@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
@@ -18,13 +19,16 @@ export class MyApp {
 
   constructor(public platform: Platform,
      public statusBar: StatusBar,
-      public splashScreen: SplashScreen) {
+      public splashScreen: SplashScreen,
+      public firebaseauth : AngularFireAuth) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: 'HomePage' },
-      { title: 'List', component: 'ListPage' }
+      { title: 'List', component: 'ListPage' },
+      { title: 'Livros', component: 'LivrosPage' }
+      
     ];
 
   }
@@ -36,7 +40,21 @@ export class MyApp {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+    this.firebaseauth.authState
+      .subscribe(
+      user => {
+          if (user) {
+            this.rootPage = 'HomePage';
+          } else {
+            this.rootPage = 'LoginPage';
+          }
+        },
+        () => {
+          this.rootPage = 'HomePage';
+        }
+        );
   }
+  
 
   openPage(page) {
     // Reset the content nav to have just this page
