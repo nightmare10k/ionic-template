@@ -28,7 +28,9 @@ export class MyApp {
       { title: 'Home', component: 'HomePage' },
       { title: 'List', component: 'ListPage' },
       { title: 'Livros', component: 'LivrosPage' },
-      { title: 'Autores', component: 'AutoresPage' }
+      { title: 'Autores', component: 'AutoresPage' },
+      { title: 'Logoff', component: 'LogoffPage' },
+      { title: 'Meus Dados', component: 'DadosPage' }
       
     ];
 

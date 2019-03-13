@@ -9,28 +9,30 @@ import { AngularFireAuth } from 'angularfire2/auth';
 })
 export class NovoUsuarioPage {
 
-    @ViewChild('usuario') email;
-    @ViewChild('senha') senha;
-  constructor(public navCtrl: NavController,
-     public navParams: NavParams,
-     public firebaseauth: AngularFireAuth,
-     public toastCtrl: ToastController,
-     public menuCtrl: MenuController) {
+  @ViewChild('usuario') email;
+  @ViewChild('senha') senha;
+
+  constructor(public navCtrl: NavController, 
+    public navParams: NavParams,
+    public firebaseauth : AngularFireAuth,
+    public toastCtrl : ToastController,
+    public menuCtrl: MenuController) {
   }
+
   ionViewDidLoad(){
     this.menuCtrl.enable(false);
   }
-
-  cadastrar(){
-    this.firebaseauth.auth.createUserWithEmailAndPassword(this.email.value,this.senha.value)
-    .then(()=>{
-      this.msgSucesso();
-    })
-    .catch(()=>{
-      this.msgErro();
-    })
-  }
   
+  cadastrar() {
+    this.firebaseauth.auth.createUserWithEmailAndPassword(this.email.value,this.senha.value)
+      .then(()=> {
+        this.msgSucesso();
+      })
+      .catch(()=> {
+        this.msgErro();
+      })
+  }
+
   msgSucesso() {
     const toast = this.toastCtrl.create({
       message: 'Cadastrado com sucesso',
@@ -38,9 +40,10 @@ export class NovoUsuarioPage {
     });
     toast.present();
   }
+
   msgErro() {
     const toast = this.toastCtrl.create({
-      message: 'Cadastro inválido',
+      message: 'Cadastro Inválido',
       duration: 3000
     });
     toast.present();
