@@ -13,7 +13,7 @@ import {AngularFireStorage} from 'angularfire2/storage';
 })
 export class DadosPage {
 
-  firebase = firebase.firestore();
+  firestore = firebase.firestore();
   uid : string;
   dados : Dados = new Dados();
 
@@ -31,6 +31,26 @@ export class DadosPage {
   }
 
   ionViewDidLoad() {
+    //Referencia para coleçao dados
+    var docRef = this.firestore.collection("dados").doc(this.uid);
+
+    docRef.get().then(doc => { //Solicita o documento
+      
+      if(doc.exists) { // verificar se existe o documento
+        this.dados.setDados(doc.data()); //Se existir, pega os Dados
+      }else{
+        // Se não existir ele cria, este codigo sera modificado
+        this.firestore.collection("dados").doc(this.uid).set(
+          {'nome' : 'Hugo', 'telefone' : '2185474'}
+
+        ).then(ref => {
+          //Utiliza o mesmo dados acima, este codigo sera modificado
+          this.dados.setDados({'nome' : 'Hugo', 'telefone': '2185474'});
+        });
+      }
+    })
+
+    this.downloadFoto();
     
   }
 
@@ -46,13 +66,19 @@ export class DadosPage {
        //Executar upload
     ref.put(this.imagem).then(resp => {
       // Se sucesso, pegar a url para download da img
-      ref.getDownloadURL().then(url=>{
-        //console.log(url); // url para download 
-        this.dados.foto = url;
-      }).catch(err =>{
-        console.log(err); //Houve algum erro
-      })
+      this.downloadFoto();
     });
+  }
+  downloadFoto(){
+    let ref = 'usuario/'+this.uid+'.jpg'; //Pasta Servidor
+    let gsReference = firebase.storage().ref().child(ref); // Referencia do arquivo no servidor
+
+    gsReference.getDownloadURL().then( url =>{ //tenta baixar a foto do servidor
+      this.dados.foto = url; //foto baixada com sucesso
+    }).catch(() =>{ //foto nâo exixste, pega foto padrao
+      this.dados.foto = "https://www.gazetadopovo.com.br/blogs/dias-da-vida/wp-content/themes/padrao/imagens/perfil-blog.png";
+    })
+
   }
 
 }

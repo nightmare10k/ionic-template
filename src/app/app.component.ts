@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AngularFireAuth } from 'angularfire2/auth';
 
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 
 @Component({
   templateUrl: 'app.html'
@@ -26,12 +25,11 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: 'HomePage' },
-      { title: 'List', component: 'ListPage' },
       { title: 'Livros', component: 'LivrosPage' },
       { title: 'Autores', component: 'AutoresPage' },
       { title: 'Logoff', component: 'LogoffPage' },
       { title: 'Meus Dados', component: 'DadosPage' }
-      
+
     ];
 
   }

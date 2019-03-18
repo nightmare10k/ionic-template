@@ -8,11 +8,49 @@
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+  <form [formGroup]="formGroup" (ngSubmit)="add()">
+    <ion-textarea  formControlName="mensagem" placeholder="Sua Mensagem"></ion-textarea>
+    <button ion-button block color='danger'>Postar</button>
+  </form>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+
+    <ion-card *ngFor = "let p of posts" >
+
+        <ion-item>
+          <ion-avatar item-start>
+            <img>
+          </ion-avatar>
+          <h2>{{p.nome}}</h2>
+          <span *ngIf= "p.uid == uid" (click)= "editar(p)" style="font-size: 12px">Editar</span>
+        </ion-item>
+      
+        <ion-card-content>
+          <p>{{p.mensagem}}</p>
+        </ion-card-content>
+      
+        <ion-row>
+          <ion-col>
+            <button ion-button icon-start clear small>
+              <ion-icon name="thumbs-up"></ion-icon>
+              <div>1M likes</div>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button icon-start clear small>
+              <ion-icon name="text"></ion-icon>
+              <div>100k Comments</div>
+            </button>
+          </ion-col>
+          <ion-col align-self-center text-center>
+            <ion-note *ngIf="p.uid == uid" (click)="removerPost(p.id)">
+              <ion-icon name="trash" color="danger"></ion-icon>
+            </ion-note>
+          </ion-col>
+        </ion-row>
+      
+      </ion-card>
+      
+      
+
 </ion-content>
